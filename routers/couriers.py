@@ -32,6 +32,6 @@ def create_courier(courier: courier_schema.CourierModelCreate,
     return {'status': status.HTTP_201_CREATED, 'message': 'courier created successfully'}
 
 
-@router.get('/{order_id}', status_code=status.HTTP_200_OK)
+@router.get('', status_code=status.HTTP_200_OK)
 def get_all_couriers(session: Session = Depends(database_dependencies.get_db)):
     return courier_structure.get_all_couriers(session)
