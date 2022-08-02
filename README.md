@@ -30,7 +30,7 @@ three simple steps:
 
 ```shell
 poetry run alembic upgrade  head  # to create the tables schemas
-poetry run uvicorn api.main:app --reload  # to run the server
+poetry run uvicorn routers.main:app --reload  # to run the server
 ```
 Then, the server will be listening on port _8000,_ and you can visit it by going to http://127.0.0.1:8000.
 
