@@ -7,6 +7,7 @@ from sqlalchemy import (
     Unicode,
     DateTime
 )
+from sqlalchemy.orm import relationship
 from dependencies.alchemy import Base
 
 
@@ -21,3 +22,7 @@ class Courier(Base):
     address = Column(String)
     registration_date = Column(DateTime, default=datetime.datetime.utcnow, nullable=True)
     is_active = Column(Boolean, index=True, nullable=True, default=True)
+
+    # Relations
+    orders = relationship('Order', back_populates='courier_id',
+                          cascade='all, delete-orphan')
