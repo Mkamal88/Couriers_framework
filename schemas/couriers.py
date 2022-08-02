@@ -1,4 +1,6 @@
-from typing import Optional
+from typing import (
+    Optional,
+)
 
 from pydantic import (
     BaseModel,
@@ -23,6 +25,6 @@ class CourierModelCreate(BaseModel):
                 'website': 'www.aramex.com',
                 'phone_number': 'phone number in the format {number}',
                 'email': 'myemail@mydomain.tld',
-                'address': 'cairo - egypt'
+                'address': 'Cairo, Egypt'
             }
         }

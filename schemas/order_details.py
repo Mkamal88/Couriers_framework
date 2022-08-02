@@ -1,4 +1,6 @@
-from typing import Optional
+from typing import (
+    Optional,
+)
 from pydantic import (
     BaseModel,
     Extra,
@@ -19,9 +21,10 @@ class OrderDetailsModelCreate(BaseModel):
             'example': {
                 'item_name': 'potatoes',
                 'item_qty': '1',
-                'item_unit': 'KG',
+                'qty_unit': 'KG',
                 'item_price': '50.00',
                 'item_desc': 'short description about the item'
             }
         }
+
 

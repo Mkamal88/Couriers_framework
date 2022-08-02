@@ -12,27 +12,26 @@ from structures import couriers as courier_structure
 from schemas import couriers as courier_schema
 
 router = APIRouter(
-    prefix="/courier",
-    tags=["courier"],
+    prefix="/couriers",
+    tags=["couriers"],
 )
 
 
 @router.post("", status_code=201,
              responses={
                  400: {
-                     'Error': 'Creating courier'
+                     'Error': 'Creating courier Error'
                  }
              })
-def create_user(user: courier_schema.CourierModelCreate,
-                db: Session = Depends(database_dependencies.get_db)):
-
-    if users_structure.get_user_by_phone(db, user.phone_number):
+def create_courier(courier: courier_schema.CourierModelCreate,
+                   session: Session = Depends(database_dependencies.get_db)):
+    if courier_structure.get_courier_by_email(session, courier.email):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail=f'user with number {user.phone_number} already exists')
-    created_user = users_structure.create_user(session=db, user=user)
-    return created_user
+                            detail=f'courier with email {courier.email} already exists')
+    courier_structure.create_courier(session, courier)
+    return {'status': status.HTTP_201_CREATED, 'message': 'courier created successfully'}
 
 
-@router.get('/couriers', status_code=status.HTTP_200_OK)
-def users(db: Session = Depends(database_dependencies.get_db)):
-    return users_structure.get_all_users(session=db)
+@router.get('/{order_id}', status_code=status.HTTP_200_OK)
+def get_all_couriers(session: Session = Depends(database_dependencies.get_db)):
+    return courier_structure.get_all_couriers(session)

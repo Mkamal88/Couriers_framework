@@ -9,9 +9,7 @@ from dependencies.alchemy import engine, Base  # noqa
 from sqlalchemy import pool  # noqa
 
 from alembic import context  # noqa
-from models import couriers  # noqa
-from models import orders  # noqa
-from models import order_details  # noqa
+from models import models  # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

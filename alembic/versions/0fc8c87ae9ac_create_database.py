@@ -1,16 +1,17 @@
-"""create database tables
+"""create database
 
-Revision ID: 2b900d40d3ea
+Revision ID: 0fc8c87ae9ac
 Revises: 
-Create Date: 2022-08-02 00:10:07.997029
+Create Date: 2022-08-02 21:10:41.927116
 
 """
 from alembic import op
 import sqlalchemy as sa
+import sqlalchemy_utils
 
 
 # revision identifiers, used by Alembic.
-revision = '2b900d40d3ea'
+revision = '0fc8c87ae9ac'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,7 +32,7 @@ def upgrade() -> None:
     )
     with op.batch_alter_table('couriers', schema=None) as batch_op:
         batch_op.create_index(batch_op.f('ix_couriers_email'), ['email'], unique=True)
-        batch_op.create_index(batch_op.f('ix_couriers_id'), ['id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_couriers_id'), ['id'], unique=True)
         batch_op.create_index(batch_op.f('ix_couriers_is_active'), ['is_active'], unique=False)
         batch_op.create_index(batch_op.f('ix_couriers_phone_number'), ['phone_number'], unique=False)
 
@@ -42,17 +43,18 @@ def upgrade() -> None:
     sa.Column('sender_name', sa.Unicode(length=255), nullable=False),
     sa.Column('receiver_name', sa.Unicode(length=255), nullable=False),
     sa.Column('receiver_address', sa.Unicode(length=255), nullable=False),
+    sa.Column('courier_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['courier_id'], ['couriers.id'], name=op.f('fk_orders_courier_id_couriers')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_orders'))
     )
     with op.batch_alter_table('orders', schema=None) as batch_op:
-        batch_op.create_index(batch_op.f('ix_orders_id'), ['id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_orders_id'), ['id'], unique=True)
 
     op.create_table('orders_details',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('creation_date', sa.DateTime(), nullable=False),
     sa.Column('item_name', sa.Unicode(length=255), nullable=False),
-    sa.Column('qty_unit', sa.Float(), nullable=False),
-    sa.Column('item_unit', sa.Unicode(length=255), nullable=False),
+    sa.Column('item_qty', sa.Float(), nullable=True),
+    sa.Column('qty_unit', sa.Unicode(length=255), nullable=True),
     sa.Column('item_price', sa.Float(), nullable=False),
     sa.Column('item_desc', sa.Unicode(length=255), nullable=False),
     sa.Column('order_id', sa.Integer(), nullable=True),
@@ -60,7 +62,7 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id', name=op.f('pk_orders_details'))
     )
     with op.batch_alter_table('orders_details', schema=None) as batch_op:
-        batch_op.create_index(batch_op.f('ix_orders_details_id'), ['id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_orders_details_id'), ['id'], unique=True)
 
     # ### end Alembic commands ###
 

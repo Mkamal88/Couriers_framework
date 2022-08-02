@@ -22,10 +22,9 @@ class OrderModelCreate(BaseModel):
         extra = Extra.forbid
         schema_extra = {
             'example': {
-                'website': 'www.aramex.com',
-                'phone_number': 'phone number in the format {number}',
-                'email': 'myemail@mydomain.tld',
-                'address': 'cairo - egypt'
+                'sender_name': 'Mohamed Kamal Aly',
+                'receiver_name': 'Ahmed Mohamed Khalid',
+                'receiver_address': 'Cairo, Egypt'
             }
         }
 
